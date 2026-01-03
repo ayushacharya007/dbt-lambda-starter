@@ -42,10 +42,3 @@ output "dbt_runner_name" {
   description = "Name of the dbt_runner Lambda function for invocation"
   value       = aws_lambda_function.dbt_runner.function_name
 }
-
-# State Bucket Name
-output "state_bucket_name" {
-  description = "Name of the S3 bucket used for Terraform state storage"
-  value       = aws_s3_bucket.terraform_state.id
-}
-
