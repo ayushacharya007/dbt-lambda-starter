@@ -2,7 +2,7 @@ dbt_models:
   outputs:
     local_dev:
       database: AwsDataCatalog
-      region_name: "{{ env_var('AWS_REGION') }}"
+      region_name: ap-southeast-2
       s3_data_dir: "s3://{{ env_var('PROCESSED_BUCKET_NAME') }}"
       s3_staging_dir: "s3://{{ env_var('ATHENA_RESULTS_BUCKET') }}"
       schema: "{{ env_var('GLUE_DATABASE_NAME') }}"
@@ -11,10 +11,10 @@ dbt_models:
       aws_profile_name: dev
     dev:
       database: AwsDataCatalog
-      region_name: "{{ env_var('AWS_REGION') }}"
+      region_name: ap-southeast-2
       s3_data_dir: "s3://{{ env_var('PROCESSED_BUCKET_NAME') }}"
       s3_staging_dir: "s3://{{ env_var('ATHENA_RESULTS_BUCKET') }}"
       schema: "{{ env_var('GLUE_DATABASE_NAME') }}"
       threads: 1
       type: athena
-  target: local_dev
+  target: dev

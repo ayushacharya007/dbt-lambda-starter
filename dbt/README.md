@@ -5,7 +5,7 @@ This directory contains a complete dbt project optimized for AWS Lambda executio
 ## Project Overview
 
 The dbt project is configured to:
-- Execute on AWS Lambda (Python 3.12)
+- Execute on AWS Lambda (Python 3.13)
 - Query and transform data in Amazon Athena
 - Store results in S3 and register them in Glue Catalog
 - Work with environment-specific configurations (dev/prod)

@@ -107,8 +107,8 @@ resource "aws_iam_policy" "dbt_runner_policy" {
         ]
         Resource = [
           "arn:aws:glue:${var.aws_region}:${data.aws_caller_identity.current.account_id}:catalog",
-          aws_glue_catalog_database.dbt_data_platform.arn,
-          "arn:aws:glue:${var.aws_region}:${data.aws_caller_identity.current.account_id}:table/${aws_glue_catalog_database.dbt_data_platform.name}/*"
+          "arn:aws:glue:${var.aws_region}:${data.aws_caller_identity.current.account_id}:database/*",
+          "arn:aws:glue:${var.aws_region}:${data.aws_caller_identity.current.account_id}:table/*/*"
         ]
       },
       {

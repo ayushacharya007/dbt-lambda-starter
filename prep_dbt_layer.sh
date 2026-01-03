@@ -7,9 +7,9 @@ PLATFORM="manylinux2014_aarch64"
 LAMBDA_UNZIPPED_LIMIT_MB=250
 
 
-# Read Python version from project root (parent directory)
+# Read Python version from project root
 if [ ! -f ".python-version" ]; then
-    echo "Error: .python-version not found in project root. Make sure to run this script from the 'dbt' directory."
+    echo "Error: .python-version not found in project root. Make sure to run this script from the project root directory."
     exit 1
 fi
 
@@ -17,25 +17,27 @@ PYTHON_VERSION=$(cat .python-version)
 
 echo "--- Starting Lambda Layer Preparation: $LAYER_NAME ---"
 
-# Check if uv is installed
-if ! command -v uv &> /dev/null; then
-    echo "Error: 'uv' is not installed. Please install it first."
-    echo "Installation: pip install uv"
-    exit 1
-fi
+# Parse dependencies from pyproject.toml using Python
+echo "Extracting dependencies from pyproject.toml..."
+python3 << 'EOF' > requirements.txt
+import tomllib
 
-# Generate requirements.txt from pyproject.toml using uv export
-# See: https://stackoverflow.com/a/75886471 (Modified from community contributions)
-echo "Generating requirements.txt from pyproject.toml..."
-REQUIREMENTS_FILE="requirements.txt"
+with open("pyproject.toml", "rb") as f:
+    data = tomllib.load(f)
 
-if uv export --no-hashes --no-header --no-annotate --format requirements-txt > "$REQUIREMENTS_FILE" 2>/dev/null; then
-    echo "✓ requirements.txt generated successfully"
-else
-    echo "Error: Failed to generate requirements.txt"
-    echo "Make sure you're running this from the project root or dbt directory"
-    exit 1
-fi
+dependencies = data.get("project", {}).get("dependencies", [])
+if not dependencies:
+    print("Error: No dependencies found in pyproject.toml")
+    exit(1)
+
+for dep in dependencies:
+    print(dep)
+EOF
+
+echo "Generated requirements.txt"
+echo "Found dependencies:"
+cat requirements.txt
+echo ""
 
 # Cleanup previous runs
 echo "Cleaning up previous build artifacts..."
@@ -44,15 +46,15 @@ rm -rf python "${LAYER_NAME}.zip"
 # Create build directory
 mkdir -p python
 
-# Install dependencies using pip
-echo "Installing dependencies for Python $PYTHON_VERSION on $PLATFORM using pip..."
-pip install \
+# Install dependencies for arm64 with full dependency resolution
+echo "Installing dependencies for Python $PYTHON_VERSION on $PLATFORM..."
+python3 -m pip install \
     --platform "$PLATFORM" \
     --python-version "$PYTHON_VERSION" \
     --only-binary=:all: \
     --target python/ \
     --implementation cp \
-    -r "$REQUIREMENTS_FILE"
+    -r requirements.txt
 
 # Optimization: Remove unnecessary files to reduce layer size
 echo "Optimizing layer size..."
@@ -65,12 +67,6 @@ find python/ -name "*.pyc" -delete
 find python/ -name "*.pyo" -delete
 find python/ -name "*.pyd" -delete
 find python/ -name "*.exe" -delete
-
-# Remove test files and documentation to save space
-find python/ -type d -name "docs" -exec rm -rf {} + 2>/dev/null || true
-
-# Remove entire .dist-info directories (not needed in Lambda layer)
-find python/ -type d -name "*.dist-info" -exec rm -rf {} + 2>/dev/null || true
 
 # Check unzipped size
 UNZIPPED_SIZE=$(du -sm python | cut -f1)
@@ -97,7 +93,6 @@ echo "Unzipped size: ${UNZIPPED_SIZE}MB"
 rm -rf python
 
 # Remove generated requirements.txt
-rm -f "$REQUIREMENTS_FILE"
-
+rm -f requirements.txt
 
 echo "Layer is ready to be deployed!"

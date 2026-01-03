@@ -31,7 +31,7 @@ This project provides a streamlined, serverless data transformation pipeline whe
 ### Components
 
 1. **dbt_runner Lambda**
-   - Runtime: Python 3.12, ARM64 architecture
+   - Runtime: Python 3.13, ARM64 architecture
    - Timeout: 900 seconds (15 minutes)
    - Memory: 3008 MB
    - Triggered manually or via EventBridge/S3 events (you can add)
@@ -54,7 +54,7 @@ This project provides a streamlined, serverless data transformation pipeline whe
 - **AWS Account** with appropriate permissions
 - **Terraform** >= 1.0
 - **AWS CLI** configured with your credentials
-- **Python 3.12+** (for local dbt project development)
+- **Python 3.13+** (for local dbt project development)
 - **Git** (to clone this repository)
 
 ## Quick Start

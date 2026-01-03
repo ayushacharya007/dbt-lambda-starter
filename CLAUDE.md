@@ -28,7 +28,7 @@ Raw Data (S3) → dbt_runner Lambda → Processed Data (S3) + Athena/Glue Metada
 ## Technology Stack
 
 - **Infrastructure**: Terraform (AWS ~5.0, archive ~2.0, random ~3.0)
-- **Compute**: AWS Lambda (Python 3.12, arm64 architecture)
+- **Compute**: AWS Lambda (Python 3.13, arm64 architecture)
 - **Data Storage**: S3 (raw, processed, athena_results buckets)
 - **Data Catalog**: AWS Glue
 - **Query Engine**: Amazon Athena
@@ -75,7 +75,7 @@ Terraform Modules:
 ### Lambda Configuration
 
 **dbt_runner Lambda**:
-- Runtime: Python 3.12, arm64 architecture
+- Runtime: Python 3.13, arm64 architecture
 - Memory: 3008 MB
 - Timeout: 900 seconds (15 minutes)
 - Layer: dbt_layer (pre-built with dbt and dependencies)
@@ -109,7 +109,7 @@ Terraform Modules:
 
 **Module Level** (`infra/variables.tf`):
 - Same variables duplicated for module isolation
-- `python_runtime`: Python version for Lambda (default: python3.12)
+- `python_runtime`: Python version for Lambda (default: python3.13)
 
 **Environment-Specific** (`envs/{dev,prod}/terraform.tfvars`):
 - Environment-specific bucket prefix
@@ -404,7 +404,7 @@ resource "aws_cloudwatch_event_target" "invoke_dbt" {
 
 - **Do not commit**: `*.tfstate`, `*.tfstate.backup`, `.terraform/` (in .gitignore)
 - **dbt Layer**: Pre-built ZIP with dbt, dbt-athena, and dependencies must exist
-- **Python Runtime**: Lambda uses Python 3.12 (update if changing dbt version requirements)
+- **Python Runtime**: Lambda uses Python 3.13 (update if changing dbt version requirements)
 - **Region Default**: ap-southeast-2 is default; change in variables.tf or terraform.tfvars
 - **No API Ingestion**: This starter focuses on transformation only; users provide their own data ingestion
 - **Athena Results**: Automatically cleaned up after 30 days; don't rely on old results
