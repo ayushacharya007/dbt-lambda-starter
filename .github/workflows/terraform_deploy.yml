@@ -1,7 +1,34 @@
-on: 
+on:
   push:
     branches:
       - main
+    paths:
+      # Terraform infrastructure
+      - '*.tf'
+      - '*.tfvars'
+      - 'terraform.tf'
+      - 'infra/**'
+      # dbt project
+      - 'dbt/**'
+      - 'dbt_layer/**'
+      # Scripts
+      - 'bootstrap_account.sh'
+      - 'prep_dbt_layer.sh'
+      # Python configuration
+      - 'pyproject.toml'
+      - 'uv.lock'
+      - '.python-version'
+      # GitHub Actions workflows
+      - '.github/workflows/**'
+    paths-ignore:
+      # Documentation
+      - '**.md'
+      # IDE and local configs
+      - '.vscode/**'
+      - '.idea/**'
+      # Git
+      - '.gitignore'
+      - 'LICENSE'
 
 jobs:
   terraform_deploy:

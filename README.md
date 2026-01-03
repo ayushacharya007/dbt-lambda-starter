@@ -1,5 +1,7 @@
 # dbt-on-Lambda Starter
 
+[![Terraform Deploy](https://github.com/GitSujal/dbt-lambda-starter/actions/workflows/terraform_deploy.yml/badge.svg)](https://github.com/GitSujal/dbt-lambda-starter/actions/workflows/terraform_deploy.yml)
+
 A production-ready starter template for running [dbt](https://www.getdbt.com/) transformations on AWS Lambda using Athena as the data warehouse. Built with Terraform for infrastructure-as-code.
 
 ## Overview
