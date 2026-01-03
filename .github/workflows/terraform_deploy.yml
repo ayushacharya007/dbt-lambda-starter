@@ -20,15 +20,6 @@ on:
       - '.python-version'
       # GitHub Actions workflows
       - '.github/workflows/**'
-    paths-ignore:
-      # Documentation
-      - '**.md'
-      # IDE and local configs
-      - '.vscode/**'
-      - '.idea/**'
-      # Git
-      - '.gitignore'
-      - 'LICENSE'
 
 jobs:
   terraform_deploy:
