@@ -365,7 +365,7 @@ memory_size = 4096  # Up to 10,240 MB
 
 ```bash
 # Only run changed models
-dbt run --select state:modified+
+dbt run --select state:modified
 
 # Run models with specific tag
 dbt run --select tag:daily_refresh

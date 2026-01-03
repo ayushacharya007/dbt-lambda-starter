@@ -21,6 +21,23 @@ output "athena_results_bucket" {
   value       = aws_s3_bucket.athena_results.id
 }
 
+# dbt State Bucket
+output "dbt_state_bucket" {
+  description = "Name of the S3 bucket for dbt state and artifacts"
+  value       = aws_s3_bucket.dbt_state.id
+}
+
+# dbt Docs Static Website
+output "dbt_docs_bucket" {
+  description = "Name of the S3 bucket for dbt documentation static website"
+  value       = aws_s3_bucket.dbt_docs.id
+}
+
+output "dbt_docs_website_url" {
+  description = "URL of the dbt documentation static website"
+  value       = aws_s3_bucket_website_configuration.dbt_docs_website.website_endpoint
+}
+
 # Glue Database Outputs
 output "glue_database_name" {
   description = "Name of the Glue catalog database for dbt metadata"
