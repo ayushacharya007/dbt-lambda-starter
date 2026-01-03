@@ -55,6 +55,6 @@ variable "extra_tags" {
 variable "python_runtime" {
   description = "The Python runtime for Lambda functions."
   type        = string
-  default     = "python3.13"
+  default     = "python3.12"
 }
 

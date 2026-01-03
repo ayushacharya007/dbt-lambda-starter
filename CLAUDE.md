@@ -28,7 +28,7 @@ Raw Data (S3) → dbt_runner Lambda → Processed Data (S3) + Athena/Glue Metada
 ## Technology Stack
 
 - **Infrastructure**: Terraform (AWS ~5.0, archive ~2.0, random ~3.0)
-- **Compute**: AWS Lambda (Python 3.13, arm64 architecture)
+- **Compute**: AWS Lambda (Python 3.12, arm64 architecture)
 - **Data Storage**: S3 (raw, processed, athena_results buckets)
 - **Data Catalog**: AWS Glue
 - **Query Engine**: Amazon Athena
@@ -77,7 +77,7 @@ Note: Terraform state backend (S3 bucket) is created by ./bootstrap_account.sh
 ### Lambda Configuration
 
 **dbt_runner Lambda**:
-- Runtime: Python 3.13, arm64 architecture
+- Runtime: Python 3.12, arm64 architecture
 - Memory: 3008 MB
 - Timeout: 900 seconds (15 minutes)
 - Layer: dbt_layer (pre-built with dbt and dependencies)
@@ -111,7 +111,7 @@ Note: Terraform state backend (S3 bucket) is created by ./bootstrap_account.sh
 
 **Module Level** (`infra/variables.tf`):
 - Same variables duplicated for module isolation
-- `python_runtime`: Python version for Lambda (default: python3.13)
+- `python_runtime`: Python version for Lambda (default: python3.12)
 
 **Environment-Specific** (`envs/{dev,prod}/terraform.tfvars`):
 - Environment-specific bucket prefix
@@ -519,7 +519,7 @@ This workflow destroys all infrastructure and must be manually triggered.
 - **Do not commit**: `*.tfstate`, `.terraform/` (in .gitignore)
 - **Bootstrap**: Run `./bootstrap_account.sh` once to set up AWS account infrastructure
 - **dbt Layer**: Auto-built by `prep_dbt_layer.sh` with arm64-compatible dependencies
-- **Python Runtime**: Lambda uses Python 3.13 with arm64 (Graviton) architecture
+- **Python Runtime**: Lambda uses Python 3.12 with arm64 (Graviton) architecture
 - **Default Region**: ap-southeast-2; specify different region as argument to bootstrap script
 - **No API Ingestion**: Starter focuses on transformation; users implement data ingestion separately
 - **Athena Results**: Auto-cleaned after 30 days; don't depend on old query results
@@ -613,7 +613,7 @@ The project includes pre-configured GitHub Actions workflows. Bootstrap automati
 ### Prerequisites
 - [ ] AWS CLI v2 installed and configured with AdministratorAccess
 - [ ] Git repository cloned with GitHub remote
-- [ ] Python 3.13 available (via pyenv, .python-version)
+- [ ] Python 3.12 available (via pyenv, .python-version)
 - [ ] Terraform >= 1.0 installed
 
 ### Bootstrap Phase (One-time)

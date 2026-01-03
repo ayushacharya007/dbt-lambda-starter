@@ -49,9 +49,9 @@ mkdir -p python
 # Install dependencies for arm64 with full dependency resolution
 echo "Installing dependencies for Python $PYTHON_VERSION on $PLATFORM..."
 python3 -m pip install \
-    --platform "$PLATFORM" \
     --python-version "$PYTHON_VERSION" \
     --only-binary=:all: \
+    --platform "$PLATFORM" \
     --target python/ \
     --implementation cp \
     -r requirements.txt

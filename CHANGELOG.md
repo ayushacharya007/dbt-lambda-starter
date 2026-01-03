@@ -10,7 +10,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - Initial public release of dbt-on-Lambda starter template
 - Production-ready serverless data transformation pipeline
-- AWS Lambda integration with Python 3.13 (ARM64 Graviton)
+- AWS Lambda integration with Python 3.12 (ARM64 Graviton)
 - Athena and Glue Catalog integration for querying
 - S3 storage with versioning, encryption, and lifecycle policies
 - Terraform infrastructure-as-code for AWS deployment
@@ -47,7 +47,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Terraform remote state backend configuration
 
 ### Development
-- Python 3.13 virtual environment setup
+- Python 3.12 virtual environment setup
 - dbt with Athena adapter
 - Terraform 1.0+ support
 - Multiple environment support (dev/prod)
